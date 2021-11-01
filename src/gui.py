@@ -3,8 +3,8 @@ from aevirepo import AeviRepo
 from PySide6.QtWidgets import QApplication
 import sys
 
-def run():
+def run(local):
     app = QApplication([])
     view = AeviQueryWindow()
-    model = AeviRepo()
+    model = AeviRepo(local)
     sys.exit(app.exec())

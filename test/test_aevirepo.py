@@ -2,7 +2,7 @@
 from decimal import Decimal
 import pytest
 import uuid
-import aevirepo as aevi
+import src.aevirepo as aevi
 import localstack_client.session as boto3
 from moto import mock_dynamodb2
 from dotenv import load_dotenv
@@ -44,7 +44,9 @@ RECORDS = FAILED + SUCCESS
 @pytest.fixture(scope="module")
 def repo():
     with mock_dynamodb2():
-        repo = aevi.AeviRepo(local=os.environ.get("AEVI_LOCAL", "false"))
+        LOCAL = os.environ.get("AEVI_LOCAL", "False").lower() in ("true", 't', '1')
+        print(LOCAL)
+        repo = aevi.AeviRepo(local=LOCAL)
         if repo.isLocal:
             cl = boto3.client('dynamodb', region_name="eu-west-1")
             if "prod-aevi-Transaction" in cl.list_tables()['TableNames']:  # Check if the table exists because of localstack not triggering moto, and delete the table if it does

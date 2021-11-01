@@ -16,8 +16,8 @@ class EmptyCacheError(Exception):
 
 class AeviRepo():
     """Query the DynamoDB database. Requires the current shell to be signed in to AWS."""
-    def __init__(self, local="false"):
-        self.isLocal = local == "true"
+    def __init__(self, local: bool):
+        self.isLocal = local
         boto = boto3_local if self.isLocal else boto3
         self._conn = boto.resource("dynamodb", region_name="eu-west-1")
         self._table: boto.dynamodb.Table = None

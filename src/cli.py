@@ -3,11 +3,9 @@
 from botocore.exceptions import ClientError
 import aevirepo
 import pprint
-from dotenv import load_dotenv
 import os
 import json
 import readline
-load_dotenv()
 
 def runFilteredQuery(repo, args):
     filterString = input("Filter: ")
@@ -23,7 +21,6 @@ def runFilteredQuery(repo, args):
                     break
     except ClientError:
         raise
-
 
 def runNormalQuery(repo, args):
     print("Querying... ", end='', flush=True)
@@ -75,8 +72,8 @@ def showMenu(repo):
         print("[S]ave current query")
     print("[Q]uit")
 
-def run():
-    repo = aevirepo.AeviRepo(local=os.environ.get("AEVI_LOCAL", "false"))
+def run(local):
+    repo = aevirepo.AeviRepo(local)
     repo.setTable('prod-aevi-Transaction')
     while True:
         showMenu(repo)
