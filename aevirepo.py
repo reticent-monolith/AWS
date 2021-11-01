@@ -6,7 +6,6 @@ from boto3.dynamodb.conditions import Attr, Key
 from functools import reduce
 import re
 from datetime import datetime as dt
-import readline  # allows better input, no control characters
 
 from botocore.exceptions import ClientError
 

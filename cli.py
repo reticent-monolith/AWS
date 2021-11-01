@@ -6,6 +6,7 @@ import pprint
 from dotenv import load_dotenv
 import os
 import json
+import readline
 load_dotenv()
 
 def runFilteredQuery(repo, args):
