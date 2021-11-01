@@ -6,7 +6,6 @@ import pprint
 from dotenv import load_dotenv
 import os
 import json
-from view.mainwindow import AeviQuery
 load_dotenv()
 
 def runFilteredQuery(repo, args):
@@ -75,8 +74,8 @@ def showMenu(repo):
         print("[S]ave current query")
     print("[Q]uit")
 
-def main():
-    repo = aevirepo.AeviRepo(local=os.environ.get("LOCAL", "false"))
+def run():
+    repo = aevirepo.AeviRepo(local=os.environ.get("AEVI_LOCAL", "false"))
     repo.setTable('prod-aevi-Transaction')
     while True:
         showMenu(repo)
@@ -115,6 +114,3 @@ def main():
             except:
                 continue
     print("\nBye!\n")
-
-if __name__=="__main__":
-    main()

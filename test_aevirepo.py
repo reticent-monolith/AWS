@@ -44,7 +44,7 @@ RECORDS = FAILED + SUCCESS
 @pytest.fixture(scope="module")
 def repo():
     with mock_dynamodb2():
-        repo = aevi.AeviRepo(local=os.environ.get("LOCAL", "false"))
+        repo = aevi.AeviRepo(local=os.environ.get("AEVI_LOCAL", "false"))
         if repo.isLocal:
             cl = boto3.client('dynamodb', region_name="eu-west-1")
             if "prod-aevi-Transaction" in cl.list_tables()['TableNames']:  # Check if the table exists because of localstack not triggering moto, and delete the table if it does
