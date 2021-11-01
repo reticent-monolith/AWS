@@ -34,17 +34,20 @@ def filterCachedQuery(repo):
     while True:
         attr = input("\nAttribute: ")
         val = input(f"Value for {attr}: ")
+        if val == "" or attr == "":
+            print("Invalid field or attribute!")
+            continue
         filterDict[attr] = val
         if input("Add another? (y/N)") != 'y':
             break
         pprint.pprint(filterDict)
-    res = repo.filterCache({attr: val})
-    if val == "" or attr == "":
-        print("Invalid field or attribute!")
-        raise Exception()
-    print("\n==============RESULTS==============")
-    pprint.pprint(res+'\n')
-    print("===================================")
+    res = repo.filterCache(filterDict)
+    print("\n===================[RESULTS]===================")
+    for i, item in enumerate(res):
+        pprint.pprint(item)
+        if i != len(res)-1:
+            print()
+    print("=====================[END]=====================")
 
 def loadSavedQuery(repo):
     try:
@@ -59,7 +62,7 @@ def saveQuery(repo):
     path = input("Save as (include absolute path, default is ./results.json): ")
     if path == "":
         path = "./results.json"
-    json.dump(repo.getCache(), open(path), "w")
+    json.dump(repo.getCache(), open(path, "w"))
 
 def showMenu(repo):
     menu = ["[R]un query", "[F]ilter cached query", "[L]oad saved query"]

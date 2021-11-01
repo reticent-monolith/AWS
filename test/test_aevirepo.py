@@ -15,17 +15,41 @@ FAILED = [
         "status": "FAILED",
         "name": f"Failed Item",
         "transaction_filename_id": "file1",
-        "st_request": "{\"sitereference\":\"test_anothersite12345\"}",
+        "st_request": "{\"sitereference\":\"site1\"}",
         "timestamp": Decimal(1633849200)
     },
     {
         "_id": "failed2",
         "status": "FAILED",
         "name": f"Failed Item",
+        "transaction_filename_id": "file1",
+        "st_request": "{\"sitereference\":\"site1\"}",
+        "timestamp": Decimal(1633879800)
+    },
+    {
+        "_id": "failed3",
+        "status": "FAILED",
+        "name": f"Failed Item",
+        "transaction_filename_id": "file1",
+        "st_request": "{\"sitereference\":\"site2\"}",
+        "timestamp": Decimal(1634598734)
+    },
+    {
+        "_id": "failed4",
+        "status": "FAILED",
+        "name": f"Failed Item",
         "transaction_filename_id": "file2",
-        "st_request": "{\"sitereference\":\"test_site12345\"}",
-        "timestamp": Decimal(1634540400)
-    }
+        "st_request": "{\"sitereference\":\"site3\"}",
+        "timestamp": Decimal(1634389597)
+    },
+    {
+        "_id": "failed5",
+        "status": "FAILED",
+        "name": f"Failed Item",
+        "transaction_filename_id": "file2",
+        "st_request": "{\"sitereference\":\"site3\"}",
+        "timestamp": Decimal(1634998745)
+    },
 ]
 
 SUCCESS = [
@@ -152,8 +176,9 @@ def test_multipleFilterAttributes(repo: aevi.AeviRepo):
         "timestamp": "1634540400",
         "sitereference": "test_site12345"
     }
+    exp = [i for i in FAILED if i["timestamp"] == Decimal(filterDict["timestamp"]) and filterDict["sitereference"] in i["st_request"]]
     res = repo.filterCache(filterDict)
-    assert res == [FAILED[1]]
+    assert all(res) == all(exp)
 
 def test_multipleStatuses(repo: aevi.AeviRepo):
     statuses = ["FAILED", "SUCCESS"]
