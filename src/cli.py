@@ -7,6 +7,16 @@ import os
 import json
 import readline
 
+def displayRecord(record):
+    string = ""
+    for k, v in record.items():
+        if k == "st_request":
+            v = pprint.pformat(v)
+        string += k.ljust(30)
+        string += str(v)
+        string += '\n'
+    print(string)
+
 def runFilteredQuery(repo, args):
     filterString = input("Filter: ")
     args.append(filterString)
@@ -14,7 +24,7 @@ def runFilteredQuery(repo, args):
     try:
         for item in repo.runFilteredStatusQuery(*args):
             if item not in ["PAGE_END"]:
-                pprint.pprint(item)
+                displayRecord(item)
             elif item == "PAGE_END":
                 print("===================================")
                 if input("\nContinue? ") == 'n':
@@ -44,7 +54,7 @@ def filterCachedQuery(repo):
     res = repo.filterCache(filterDict)
     print("\n===================[RESULTS]===================")
     for i, item in enumerate(res):
-        pprint.pprint(item)
+        displayRecord(item)
         if i != len(res)-1:
             print()
     print("=====================[END]=====================")
@@ -115,3 +125,5 @@ def run(local):
             except:
                 continue
     print("\nBye!\n")
+
+

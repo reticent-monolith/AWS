@@ -115,7 +115,7 @@ class AeviRepo():
         }
         if filterString: # TODO: this needs to parse st_request like filterCache does!
             expressions = []
-            strings = filterString.split(',')
+            strings = filterString.split(';')
             for s in strings:
                 ex = parseFilterString(s.strip())
                 expressions.append(ex)

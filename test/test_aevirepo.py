@@ -25,7 +25,7 @@ RECORDS = [
         'key_guid': '000104960034730AuthorisationPurchaseFDB7DC52-DBC7-4FE9-B2A3-BE8328A6D744',
         'requestreference': 'Ab523q53f',
         'send_attempts': 1,
-        'st_request': '{}',
+        'st_request': '{"requesttypedescription": "AUTH", "accounttypedescription": "POS", "acquirertransactionid": "12315712554", "acquirertransactionreference": "6453135102", "acquirerresponsecode": "00", "acquirerguid": "B55F2503-6A5D-401E-B312-23E69EB6D577", "retrievalreferencenumber": "122314321402", "terminalid": "T0006205", "authcode": "127705", "stan": "7997", "deviceprocessingmode": "Online", "mainamount": "18.25", "currencyiso3a": "EUR", "errorcode": "0", "transactionstartedtimestamp": "2021-08-11 12:08:20", "maskedpan": "400000******1000", "paymenttypedescription": "VISA", "cardentrymode": "ChipContactless", "cardholderverificationmethod": "None", "issuer": "", "stationname": "merchant name", "stationbusinessid": "merchant name", "stationid": "6696231975", "stationoriginalid": "97180", "stationstreet": "", "stationpremise": "", "stationtown": "", "stationpostcode": "", "stationcountryiso2a": "", "deviceid": "9571510164", "deviceconfigurationversion": "", "devicesoftwareversion": "0401.132095", "merchantcategorycode": "5411", "deviceattended": "", "devicecategory": "EFTPOSTerminal", "devicetype": "IndoorPaymentTerminal", "devicemodel": "CastlesHW_V3C", "devicevendor": "", "customfield1": "aevi-listener-5e77f14850a38a6a404c17c128f6a54208210078", "dcctype": "DCC", "dccoffered": "2", "dccprovider": "FEXCO", "dcccurrencyiso3a": "EUR", "dccmainamount": "18.25", "sitereference": "siteref45678"}',
         'status': 'FAILED',
         'timestamp': 1635725027,
         'transaction_request_filename': 'b1551dc2-f3e2-4de7-8075-266805b65778',
@@ -262,8 +262,8 @@ def test_queryFilename(repo: aevi.AeviRepo):
     assert all(result) == all(expected)
 
 def test_runFilteredQuery_stRequestAttr(repo: aevi.AeviRepo):  
-    filterString = "sitereference contains another"
-    expected = [i for i in RECORDS if i["errormessage"] == "Invalid field" and i != "PAGE_END" and "another" in i["st_request"]]
+    filterString = "sitereference contains siteref"
+    expected = [i for i in RECORDS if i["errormessage"] == "Invalid field" and i != "PAGE_END" and "siteref" in i["st_request"]]
     print(expected)
     print(expected)
     result = repo.runFilteredStatusQuery(["FAILED"], filterString)
