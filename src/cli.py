@@ -92,7 +92,7 @@ def run(local):
                     continue
             statuses = input("\nEnter statuses to query in comma delimited string: ")
             args = [statuses.split(',')]
-            if input("Apply a filter? (y/N)") == 'y':
+            if input("Apply a filter? (y/N) ") == 'y':
                 try:
                     runFilteredQuery(repo, args)
                 except ClientError:

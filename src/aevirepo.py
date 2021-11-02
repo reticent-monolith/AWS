@@ -73,7 +73,7 @@ class AeviRepo():
     def runIdQuery(self, id):
         kwargs = {
             "ExpressionAttributeNames": {
-                "#id": "_id"
+                "#id": "id"
             },
             "ExpressionAttributeValues": {
                 ":x": id.strip()

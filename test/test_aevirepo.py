@@ -9,61 +9,74 @@ from dotenv import load_dotenv
 import os
 load_dotenv()
 
-FAILED = [
+RECORDS = [
     {
-        "_id": "failed1",
-        "status": "FAILED",
-        "name": f"Failed Item",
-        "transaction_filename_id": "file1",
-        "st_request": "{\"sitereference\":\"site1\"}",
-        "timestamp": Decimal(1633849200)
+        'business_transaction_id': '11710742480',
+        'created_at': 1627308098,
+        'errorcode': '30000',
+        'errormessage': 'Invalid field',
+        'expected_error_code': '0',
+        'expiration_month': 'TRUNCATED',
+        'guid': 'FDB7DC52-DBC7-4FE9-B2A3-BE8328A6D744',
+        'host_device_id': 'T0000561',
+        'host_merchant_id': '000104960034730',
+        'id': '953ee84c12fa462690497d4444c79131790d203d93717a89efcc3e9070b6a1cc',
+        'key_business_transaction_id': '000104960034730AuthorisationPurchase11710742480',
+        'key_guid': '000104960034730AuthorisationPurchaseFDB7DC52-DBC7-4FE9-B2A3-BE8328A6D744',
+        'requestreference': 'Ab523q53f',
+        'send_attempts': 1,
+        'st_request': '{}',
+        'status': 'FAILED',
+        'timestamp': 1635725027,
+        'transaction_request_filename': 'b1551dc2-f3e2-4de7-8075-266805b65778',
+        'transaction_request_id': 'b1551dc2-f3e2-4de7-8075-266805b65778:0',
+        'version': 7
     },
     {
-        "_id": "failed2",
-        "status": "FAILED",
-        "name": f"Failed Item",
-        "transaction_filename_id": "file1",
-        "st_request": "{\"sitereference\":\"site1\"}",
-        "timestamp": Decimal(1633879800)
+        'business_transaction_id': '11710742231',
+        'created_at': 1627306534,
+        'errorcode': '30000',
+        'errormessage': 'Invalid field',
+        'expected_error_code': '0',
+        'expiration_month': 'TRUNCATED',
+        'guid': 'FDB7DC52-DBC7-4FE9-B2A3-BE8328A6D744',
+        'host_device_id': 'T00007652',
+        'host_merchant_id': '000104960034897',
+        'id': '953ee84c12fa462690497d4345c79131790d203d93717a89efcc3e9070b6a1cc',
+        'key_business_transaction_id': '000104960034730AuthorisationPurchase11710742480',
+        'key_guid': '000104960034730AuthorisationPurchaseFDB7DC52-DBC7-4FE9-B2A3-BE8328A6D744',
+        'requestreference': 'Ab823q53f',
+        'send_attempts': 1,
+        'st_request': '{}',
+        'status': 'FAILED',
+        'timestamp': 1635721233,
+        'transaction_request_filename': 'b15513c2-f3e2-4de7-8075-266805b65778',
+        'transaction_request_id': 'b1551dc2-f3e2-4de7-8075-266805b65778:0',
+        'version': 7
     },
     {
-        "_id": "failed3",
-        "status": "FAILED",
-        "name": f"Failed Item",
-        "transaction_filename_id": "file1",
-        "st_request": "{\"sitereference\":\"site2\"}",
-        "timestamp": Decimal(1634598734)
-    },
-    {
-        "_id": "failed4",
-        "status": "FAILED",
-        "name": f"Failed Item",
-        "transaction_filename_id": "file2",
-        "st_request": "{\"sitereference\":\"site3\"}",
-        "timestamp": Decimal(1634389597)
-    },
-    {
-        "_id": "failed5",
-        "status": "FAILED",
-        "name": f"Failed Item",
-        "transaction_filename_id": "file2",
-        "st_request": "{\"sitereference\":\"site3\"}",
-        "timestamp": Decimal(1634998745)
+        'business_transaction_id': '11710742678',
+        'created_at': 1627302308,
+        'errorcode': '30000',
+        'errormessage': 'Invalid field',
+        'expected_error_code': '0',
+        'expiration_month': 'TRUNCATED',
+        'guid': 'FDB7DC52-DBC7-4FE9-B2A3-BE8328A6D744',
+        'host_device_id': 'T0000561',
+        'host_merchant_id': '000104960034212',
+        'id': '953ee84c12fa462690497d4444c79178590d203d93717a89efcc3e9070b6a1cc',
+        'key_business_transaction_id': '000104960034730AuthorisationPurchase11710742480',
+        'key_guid': '000104960034730AuthorisationPurchaseFDB7DC52-DBC7-4FE9-B2A3-BE8328A6D744',
+        'requestreference': 'Ab533q53f',
+        'send_attempts': 1,
+        'st_request': '{}',
+        'status': 'FAILED',
+        'timestamp': 1633824100,
+        'transaction_request_filename': 'b1551dc2-f3e2-4de7-8075-266805b65778',
+        'transaction_request_id': 'b1551dc2-f3e2-4de7-8075-266805b65778:0',
+        'version': 7
     },
 ]
-
-SUCCESS = [
-    {
-        "_id": "success1",
-        "status": "SUCCESS",
-        "name": f"Success Item",
-        "transaction_filename_id": "file1",
-        "st_request": "{\"sitereference\":\"test_anothersite12345\"}",
-        "timestamp": Decimal(1634540400)
-    }
-]
-
-RECORDS = FAILED + SUCCESS
 
 @pytest.fixture(scope="module")
 def repo():
@@ -79,10 +92,10 @@ def repo():
         table = repo._conn.create_table(
             TableName='prod-aevi-Transaction',
             KeySchema=[
-                {'AttributeName': '_id', 'KeyType': 'HASH'}
+                {'AttributeName': 'id', 'KeyType': 'HASH'}
             ],
             AttributeDefinitions=[
-                {'AttributeName': '_id', 'AttributeType': 'S'},
+                {'AttributeName': 'id', 'AttributeType': 'S'},
                 {'AttributeName': 'status', 'AttributeType': 'S'},
                 {'AttributeName': 'transaction_filename_id', 'AttributeType': 'S'}
             ],
@@ -125,9 +138,7 @@ def repo():
         )
         # create 1 FAILED and 1 SUCCESSFUL records
         # insert records into table
-        for item in FAILED:
-            table.put_item(Item=item)
-        for item in SUCCESS:
+        for item in RECORDS:
             table.put_item(Item=item)
         repo.setTable("prod-aevi-Transaction")
         yield repo
@@ -136,17 +147,17 @@ def test_runStatusQuery_FAILED(repo: aevi.AeviRepo):
     # call runStatusQuery(["FAILED"])
     res = repo.runStatusQuery(["FAILED"])
     # assert that the FAILED record is returned
-    assert all(res) == all(FAILED)
+    assert all(res) == all([r for r in RECORDS if r["errormessage"] == "Invalid field"])
 
 def test_runStatusQuery_SUCCESS(repo: aevi.AeviRepo):
     # call runStatusQuery(["FAILED"])
     res = repo.runStatusQuery(["SUCCESS"])
     # assert that the FAILED record is returned
-    assert all(res) == all(SUCCESS)
+    assert all(res) == all([r for r in RECORDS if r['status'] == "SUCCESS"])
 
 def test_setAndGetCache(repo: aevi.AeviRepo):
     repo.setCache(repo.runStatusQuery(["FAILED"]))
-    assert all(repo.getCache()) == all(FAILED)
+    assert all(repo.getCache()) == all([r for r in RECORDS if r["errormessage"] == "Invalid field"])
 
 def test_filterCache_noCache(repo: aevi.AeviRepo):
     with pytest.raises(aevi.EmptyCacheError) as ece:
@@ -160,7 +171,7 @@ def test_filterCache_withCache(repo: aevi.AeviRepo):
         "sitereference": "test_site12345"
     }
     res = repo.filterCache(filterDict)
-    assert all(res) == all([i for i in FAILED if filterDict["sitereference"] in i["st_request"]])
+    assert all(res) == all([i for i in RECORDS if filterDict["sitereference"] in i["st_request"] and i['status'] == "FAILED"])
 
 def test_filterCache_nonString(repo: aevi.AeviRepo):
     repo.setCache(repo.runStatusQuery(["FAILED"]))
@@ -168,7 +179,7 @@ def test_filterCache_nonString(repo: aevi.AeviRepo):
         "timestamp": "1634540400"
     }
     res = repo.filterCache(filterDict)
-    assert all(res) == all([i for i in FAILED if i["timestamp"] == Decimal(filterDict["timestamp"])])
+    assert all(res) == all([i for i in RECORDS if i["timestamp"] == Decimal(filterDict["timestamp"]) and i["errormessage"] == "Invalid field"])
 
 def test_multipleFilterAttributes(repo: aevi.AeviRepo):
     repo.setCache(repo.runStatusQuery(["FAILED"]))
@@ -176,7 +187,7 @@ def test_multipleFilterAttributes(repo: aevi.AeviRepo):
         "timestamp": "1634540400",
         "sitereference": "test_site12345"
     }
-    exp = [i for i in FAILED if i["timestamp"] == Decimal(filterDict["timestamp"]) and filterDict["sitereference"] in i["st_request"]]
+    exp = [i for i in RECORDS if i["timestamp"] == Decimal(filterDict["timestamp"]) and filterDict["sitereference"] in i["st_request"] and i["errormessage"] == "Invalid field"]
     res = repo.filterCache(filterDict)
     assert all(res) == all(exp)
 
@@ -189,7 +200,7 @@ def test_emptyFilter(repo: aevi.AeviRepo):
     repo.setCache(repo.runStatusQuery(["FAILED"]))
     filterDict = {}
     res = repo.filterCache(filterDict)
-    assert all(res) == all(FAILED)
+    assert all(res) == all([r for r in RECORDS if r["errormessage"] == "Invalid field"])
 
 def test_badFilter(repo: aevi.AeviRepo):
     repo.setCache(repo.runStatusQuery(["FAILED"]))
@@ -205,8 +216,8 @@ def test_filterNotDict(repo: aevi.AeviRepo):
     assert te.type == TypeError
 
 def test_runFilteredStatusQuery_stringEquals(repo: aevi.AeviRepo):
-    filterString = "name = Failed Item"
-    expected = FAILED
+    filterString = "errormessage = Invalid field"
+    expected = [r for r in RECORDS if r["errormessage"] == "Invalid field"]
     expected.insert(1, "PAGE_END")
     expected.insert(3, "PAGE_END")
     result = []
@@ -216,23 +227,23 @@ def test_runFilteredStatusQuery_stringEquals(repo: aevi.AeviRepo):
 
 def test_runFilteredStatusQuery_betweenDates(repo: aevi.AeviRepo):
     filterString = "between 2021-10-10 00:00:00 and 2021-10-15 00:00:00"
-    expected = [FAILED[0], "PAGE_END"]
+    expected = [r for r in RECORDS if 1633824000 <= r["timestamp"] <= 1634256000]
     result = []
     for i in repo.runFilteredStatusQuery(["FAILED"], filterString):
         result.append(i)
     assert all(result) == all(expected)
 
 def test_runFilteredStatusQuery_stringContains(repo: aevi.AeviRepo):
-    filterString = "name contains Item"
-    expected = FAILED
+    filterString = "errormessage contains Invalid"
+    expected = [r for r in RECORDS if "Invalid" in r['errormessage']]
     result = []
     for i in repo.runFilteredStatusQuery(["FAILED"], filterString):
         result.append(i)
     assert all(result) == all(expected)
 
 def test_runFilteredStatusQuery_multiple(repo: aevi.AeviRepo):
-    filterString = "name contains Item, between 2021-10-10 00:00:00 and 2021-10-15 00:00:00"
-    expected = [FAILED[0], "PAGE_END"]
+    filterString = "errormessage = Invalid field; between 2021-10-10 00:00:00 and 2021-10-15 00:00:00"
+    expected = [r for r in RECORDS if r["errormessage"] == "Invalid field" and 1633824000 <= r["timestamp"] <= 1634256000]
     result = []
     for i in repo.runFilteredStatusQuery(["FAILED"], filterString):
         result.append(i)
@@ -240,19 +251,19 @@ def test_runFilteredStatusQuery_multiple(repo: aevi.AeviRepo):
 
 def test_queryId(repo: aevi.AeviRepo):
     id = "failed1"
-    expected = [item for item in RECORDS if item["_id"] == id]  # Is this a good way to desribe the expected?
+    expected = [item for item in RECORDS if item["id"] == id]  # Is this a good way to desribe the expected?
     result = repo.runIdQuery(id)
     assert all(result) == all(expected)
 
 def test_queryFilename(repo: aevi.AeviRepo):
     filename = "file1"
-    expected = [item for item in RECORDS if item["transaction_filename_id"] == filename]
+    expected = [item for item in RECORDS if item["transaction_request_filename"] == filename]
     result = repo.runFilenameQuery(filename)
     assert all(result) == all(expected)
 
 def test_runFilteredQuery_stRequestAttr(repo: aevi.AeviRepo):  
     filterString = "sitereference contains another"
-    expected = [i for i in FAILED if i != "PAGE_END" and "another" in i["st_request"]]
+    expected = [i for i in RECORDS if i["errormessage"] == "Invalid field" and i != "PAGE_END" and "another" in i["st_request"]]
     print(expected)
     print(expected)
     result = repo.runFilteredStatusQuery(["FAILED"], filterString)
