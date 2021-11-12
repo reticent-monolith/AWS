@@ -1,3 +1,4 @@
+#! /usr/bin/env python
 """Runs either the cli or gui version of the program depending on AEVI_GUI environment variable."""
 from dotenv import load_dotenv
 from os import environ

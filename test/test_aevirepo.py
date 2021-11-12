@@ -47,7 +47,7 @@ RECORDS = [
         'key_guid': '000104960034730AuthorisationPurchaseFDB7DC52-DBC7-4FE9-B2A3-BE8328A6D744',
         'requestreference': 'Ab823q53f',
         'send_attempts': 1,
-        'st_request': '{}',
+        'st_request': '{"sitereference":"test_site12345"}',
         'status': 'FAILED',
         'timestamp': 1635721233,
         'transaction_request_filename': 'b15513c2-f3e2-4de7-8075-266805b65778',
@@ -264,8 +264,6 @@ def test_queryFilename(repo: aevi.AeviRepo):
 def test_runFilteredQuery_stRequestAttr(repo: aevi.AeviRepo):  
     filterString = "sitereference contains siteref"
     expected = [i for i in RECORDS if i["errormessage"] == "Invalid field" and i != "PAGE_END" and "siteref" in i["st_request"]]
-    print(expected)
-    print(expected)
     result = repo.runFilteredStatusQuery(["FAILED"], filterString)
     assert all(result) == all(expected)
 

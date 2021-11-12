@@ -145,8 +145,9 @@ class AeviRepo():
     
 def parseFilterString(string):  
     numericAttrs = ["timestamp", "version", "created_at"]
-    if ' = ' in string:
-        split = string.split(' = ')
+    if '=' in string:
+        split = string.split('=')
+        split = [s.strip(" ") for s in split]
         if split[0] in numericAttrs:
             split[1] = int(split[1])
         return Attr(split[0]).eq(split[1])
