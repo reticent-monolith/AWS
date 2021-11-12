@@ -52,7 +52,7 @@ class AeviRepo():
     def getCache(self):
         return self._cache
 
-    def filterCache(self, filterDict):
+    def filterCache(self, filterDict):  #TODO improve (contains, between, =, <, >, <=, >= etc.)
         if type(filterDict) != dict:
             raise TypeError()
         if len(self._cache) == 0:
