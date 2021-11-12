@@ -167,11 +167,9 @@ def test_filterCache_noCache(repo: aevi.AeviRepo):
 
 def test_filterCache_withCache(repo: aevi.AeviRepo):
     repo.setCache(repo.runStatusQuery(["FAILED"]))
-    filterDict = {
-        "sitereference": "test_site12345"
-    }
-    res = repo.filterCache(filterDict)
-    assert all(res) == all([i for i in RECORDS if filterDict["sitereference"] in i["st_request"] and i['status'] == "FAILED"])
+    filterString = "sitereference is test_site12345"
+    res = repo.filterCache(filterString)
+    assert all(res) == all([i for i in RECORDS if "test_site12345" in i["st_request"] and i['status'] == "FAILED"])
 
 def test_filterCache_nonString(repo: aevi.AeviRepo):
     repo.setCache(repo.runStatusQuery(["FAILED"]))
@@ -198,8 +196,8 @@ def test_multipleStatuses(repo: aevi.AeviRepo):
 
 def test_emptyFilter(repo: aevi.AeviRepo):
     repo.setCache(repo.runStatusQuery(["FAILED"]))
-    filterDict = {}
-    res = repo.filterCache(filterDict)
+    filterString = ""
+    res = repo.filterCache(filterString)
     assert all(res) == all([r for r in RECORDS if r["errormessage"] == "Invalid field"])
 
 def test_badFilter(repo: aevi.AeviRepo):
@@ -210,13 +208,8 @@ def test_badFilter(repo: aevi.AeviRepo):
     res = repo.filterCache(filterDict)
     assert res == []
 
-def test_filterNotDict(repo: aevi.AeviRepo):
-    with pytest.raises(TypeError) as te:
-        repo.filterCache([])
-    assert te.type == TypeError
-
 def test_runFilteredStatusQuery_stringEquals(repo: aevi.AeviRepo):
-    filterString = "errormessage = Invalid field"
+    filterString = "errormessage is Invalid field"
     expected = [r for r in RECORDS if r["errormessage"] == "Invalid field"]
     expected.insert(1, "PAGE_END")
     expected.insert(3, "PAGE_END")
@@ -242,7 +235,7 @@ def test_runFilteredStatusQuery_stringContains(repo: aevi.AeviRepo):
     assert all(result) == all(expected)
 
 def test_runFilteredStatusQuery_multiple(repo: aevi.AeviRepo):
-    filterString = "errormessage = Invalid field; between 2021-10-10 00:00:00 and 2021-10-15 00:00:00"
+    filterString = "errormessage is Invalid field; between 2021-10-10 00:00:00 and 2021-10-15 00:00:00"
     expected = [r for r in RECORDS if r["errormessage"] == "Invalid field" and 1633824000 <= r["timestamp"] <= 1634256000]
     result = []
     for i in repo.runFilteredStatusQuery(["FAILED"], filterString):

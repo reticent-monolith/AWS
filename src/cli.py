@@ -67,20 +67,10 @@ def runNormalQuery(repo, args):
         repo.setCache(res)
 
 def filterCachedQuery(repo):
-    """Filter the currently cached query."""
-    filterDict = {}
-    while True:
-        attr = input("\nAttribute: ")
-        val = input(f"Value for {attr}: ")
-        if val == "" or attr == "":
-            print("Invalid field or attribute!")
-            continue
-        filterDict[attr] = val
-        print("Add another? (y/N)")
-        if read() != 'y':
-            break
-        pprint.pprint(filterDict)
-    res = repo.filterCache(filterDict)
+    """Filter the currently cached query.
+    Filter string should resemble: "<attribute> is <value>; <attribute> contains <value>; between <ISOdatetime> and <ISOdatetime|now>"
+    """
+    res = repo.filterCache(input("Filter: "))
     print("\n===================[RESULTS]===================")
     for i, item in enumerate(res):
         displayRecord(item)
